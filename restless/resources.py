@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import logging
 import six
 import sys
 
@@ -8,6 +9,9 @@ from .exceptions import MethodNotImplemented, HttpError, AccountUnauthorized
 from .preparers import Preparer
 from .serializers import JSONSerializer
 from .utils import format_traceback
+
+
+logger = logging.getLogger(__name__)
 
 
 def skip_prepare(func):
@@ -319,6 +323,11 @@ class Resource(object):
         """
         if self.bubble_exceptions():
             raise err
+        else:
+            try:
+                raise err
+            except Exception, e:
+                logger.error('restless Resource:%s' % e.message, exc_info=True)
 
         return self.build_error(err)
 
