@@ -305,7 +305,7 @@ class Resource(object):
             data = view_method(*args, **kwargs)
             serialized = self.serialize(method, endpoint, data)
         except Exception as err:
-            logger.error('restless Resource:%s' % err.message, exc_info=True)
+            logger.error('restless Resource:%s' % err, exc_info=True)
             return self.handle_error(err)
 
         status = self.status_map.get(self.http_methods[endpoint][method], OK)
